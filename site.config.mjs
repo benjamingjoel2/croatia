@@ -35,6 +35,14 @@ export default {
     formEndpoint: '',
   },
 
+  // Typography. Loaded from Google Fonts; swap the families and the URL together.
+  fonts: {
+    display: '"Instrument Serif", "Iowan Old Style", Georgia, serif',
+    body: '"Inter Tight", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+    mono: '"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace',
+    href: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&display=swap',
+  },
+
   // Canonical URL, no trailing slash. Used for sitemap and canonical tags.
   siteUrl: 'https://maestral-croatia.vercel.app',
 
@@ -55,6 +63,9 @@ export default {
     lavender: '#5A4A8A',      // Hvar lavender, deep (text-safe)
     lavenderTint: '#ECE7F5',
     sun: '#F2C14E',           // sunshine accent, never behind white text
+    deep: '#0D1F2A',          // night-sea: dark sections and footer
+    mist: '#A8BBC6',          // secondary text on deep
+    sand: '#EFE8DA',          // warm alternate section background
     ink: '#1B2830',           // body text
     inkSoft: '#47555E',       // secondary text
   },
@@ -68,5 +79,7 @@ export default {
     ['ink', 'sun'], ['ink', 'sea'], ['ink', 'stone'], ['terracotta', 'limestone'],
     ['pine', 'limestone'], ['lavender', 'limestone'], ['inkSoft', 'stone'], ['ink', 'pineTint'],
     ['ink', 'terracottaTint'], ['ink', 'lavenderTint'], ['white', 'adriaticBright'],
+    ['white', 'deep'], ['limestone', 'deep'], ['mist', 'deep'], ['sun', 'deep'], ['ink', 'sand'],
+    ['inkSoft', 'sand'], ['adriatic', 'sand'], ['terracotta', 'sand'], ['white', 'ink'], ['sun', 'ink'],
   ],
 };

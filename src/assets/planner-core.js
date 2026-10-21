@@ -51,7 +51,7 @@ function bestLeg(graph, from, to, preferCar) {
  * → { days: [...], legs: [...], totalNights, totalMins, warnings }
  */
 export function plan(data, { start, end, stops, car = false }) {
-  const graph = buildGraph(car ? data.legs.filter((l) => l.type !== 'cat') : data.legs);
+  const graph = buildGraph(car ? data.legs.filter((l) => l.type === 'ferry' || l.type === 'road') : data.legs);
   const byId = Object.fromEntries(data.islands.map((i) => [i.id, i]));
   const segments = [];
   const warnings = [];
@@ -73,7 +73,7 @@ export function plan(data, { start, end, stops, car = false }) {
       const leg = bestLeg(graph, s.from, s.to, car);
       totalMins += leg.mins;
       if (leg.seasonal) warnings.push(`${data.ports[s.from].name} → ${data.ports[s.to].name} runs mainly in summer or less often off-season.`);
-      return { from: s.from, to: s.to, fromName: data.ports[s.from].name, toName: data.ports[s.to].name, type: leg.type, mins: leg.mins, seasonal: !!leg.seasonal };
+      return { from: s.from, to: s.to, fromName: data.ports[s.from].name, toName: data.ports[s.to].name, type: leg.type, mins: leg.mins, seasonal: !!leg.seasonal, op: leg.op || '', note: leg.note || '' };
     });
     here = path.to;
     return steps;
@@ -97,4 +97,4 @@ export const fmtMins = (m) => {
   return h ? `${h} h${r ? ` ${String(r).padStart(2, '0')}` : ''}` : `${r} min`;
 };
 
-export const legLabel = { ferry: 'Car ferry', cat: 'Catamaran', road: 'By road' };
+export const legLabel = { ferry: 'Car ferry', cat: 'Catamaran', ship: 'Passenger boat', road: 'By road' };

@@ -5,7 +5,8 @@ islands, sailing, Istrian food and wine, and national parks away from the
 cruise-ship crowds.
 
 - **No framework and no dependencies.** A small Node script turns data files into plain HTML.
-- **Brand in one file.** The name, contact details and palette all live in [`site.config.mjs`](site.config.mjs).
+- **Brand in one file.** The name, contact details, palette and fonts all live in [`site.config.mjs`](site.config.mjs).
+- **Sourced facts.** Ferry times, park tickets and seasons are checked against official sources, listed in `src/data/sources.mjs` and shown in a "Sources" block on each page.
 - **Accessible.** The build fails if any palette text/background pair drops below WCAG AA (4.5:1).
 - **Fact list.** Everything that needs checking is listed in [`FACTS-TO-VERIFY.md`](FACTS-TO-VERIFY.md).
 
@@ -36,7 +37,7 @@ command `npm run build` and the publish directory `dist`.
 ## Project layout
 
 ```
-site.config.mjs          ← brand name, tagline, contact, form endpoint, palette
+site.config.mjs          ← brand name, tagline, contact, form endpoint, palette, fonts
 build.mjs                ← renders every page to dist/
 src/
   pages.mjs              ← all page content and structure (one block per page)
@@ -51,6 +52,7 @@ src/
     stays.mjs            ← PLACEHOLDER stays (invented names)
     journal.mjs          ← journal posts
     photos.mjs           ← every Unsplash photo, with verified location + credit
+    sources.mjs          ← references (official ones flagged) behind the facts
   assets/
     style.css            ← all styles (colours come from config as CSS variables)
     site.js              ← menu, current-month highlight, enquiry form
@@ -67,6 +69,11 @@ scripts/
 Edit `site.config.mjs`: `brand.name`, `tagline`, `nameStory`, `description`
 and `contact`. The logo is a simple SVG built from the palette, in
 `src/layout.mjs` (and the favicon in `build.mjs`). Rebuild.
+
+### Change fonts
+Edit `fonts` in `site.config.mjs`: three CSS font stacks (display, body,
+mono) and the Google Fonts URL that loads them. The design uses Instrument
+Serif for display type, Inter Tight for text and IBM Plex Mono for small labels.
 
 ### Change colours
 Edit `palette` in `site.config.mjs`. If you add a new text/background
@@ -105,6 +112,17 @@ use a photo where its Unsplash location field matches the place it
 illustrates.** To add one, put an entry in `src/data/photos.mjs` with the
 `photo-…` id, page slug, location (copied from the page), photographer and
 username, then use it by key, for example `img('hvar')`.
+
+### Sources
+Add a reference to `src/data/sources.mjs` (title, publisher, URL, and
+whether it's official), then list its key in a `src: [...]` field on the
+data item: a region, park, food season, ferry leg or journal post. The page
+renders it in its "Sources" block automatically.
+
+### Design notes
+- The home page, region, park, island, food and journal pages open with a full-bleed photo hero. The header is transparent over it and turns solid on scroll.
+- Sections reveal on scroll (IntersectionObserver), except when the visitor asks for reduced motion. Content stays visible without JavaScript.
+- Pass `hero: true` in a page definition when its header has a photo.
 
 ### Marking facts
 Put a `†` in any copy that might change, such as a timetable, price or

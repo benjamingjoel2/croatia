@@ -1,21 +1,47 @@
 // Small enhancements shared by every page. The site works without this file.
-document.documentElement.classList.remove('no-js');
-document.documentElement.classList.add('js');
 
-// Mobile menu
+// Mobile menu (full-screen panel below 1100px)
 const header = document.querySelector('.site-header');
 const toggle = document.querySelector('.nav-toggle');
-toggle?.addEventListener('click', () => {
-  const open = header.classList.toggle('nav-open');
+const setMenu = (open) => {
+  document.body.classList.toggle('nav-open', open);
   toggle.setAttribute('aria-expanded', String(open));
-});
+  toggle.querySelector('.nav-toggle-label').textContent = open ? 'Close' : 'Menu';
+  document.body.style.overflow = open ? 'hidden' : '';
+};
+toggle?.addEventListener('click', () => setMenu(!document.body.classList.contains('nav-open')));
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && header.classList.contains('nav-open')) {
-    header.classList.remove('nav-open');
-    toggle.setAttribute('aria-expanded', 'false');
-    toggle.focus();
-  }
+  if (e.key === 'Escape' && document.body.classList.contains('nav-open')) { setMenu(false); toggle.focus(); }
 });
+
+// Transparent header over the hero turns solid once you scroll past it.
+const hero = document.querySelector('[data-hero]');
+if (hero && header) {
+  const update = () => header.classList.toggle('is-solid', window.scrollY > hero.offsetHeight - header.offsetHeight - 10);
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+}
+
+// Reveal-on-scroll. Content is visible without JS and with reduced motion.
+const reveal = document.querySelectorAll('[data-reveal]');
+if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+    if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+  }), { rootMargin: '0px 0px -8% 0px' });
+  reveal.forEach((el) => io.observe(el));
+  // Anything already scrolled past (deep links, fast scrolling) shows at once.
+  const sweep = () => reveal.forEach((el) => { if (el.getBoundingClientRect().top < innerHeight) el.classList.add('is-in'); });
+  addEventListener('scroll', sweep, { passive: true });
+  addEventListener('load', sweep);
+} else reveal.forEach((el) => el.classList.add('is-in'));
+
+// Horizontal scroller buttons.
+document.querySelectorAll('[data-scroll]').forEach((b) => b.addEventListener('click', () => {
+  const sc = b.closest('section').querySelector('[data-scroller]');
+  const card = sc.querySelector('.card');
+  sc.scrollBy({ left: (+b.dataset.scroll) * ((card?.offsetWidth || 300) + 20), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+}));
 
 // Highlight the current month on the crowd calendar and food strip.
 const month = new Date().getMonth();

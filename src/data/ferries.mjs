@@ -4,7 +4,8 @@
 // in FACTS-TO-VERIFY.md. `seasonal: true` = runs mainly late spring–early autumn
 // or far less often in winter.
 //
-// type: 'ferry' (car ferry), 'cat' (passenger catamaran), 'road' (bridge or
+// type: 'ferry' (car ferry), 'cat' (passenger catamaran), 'ship' (passenger
+// ship, no cars), 'road' (bridge or
 // on-island drive/bus, included so the planner can move between ports).
 
 export const ports = {
@@ -51,44 +52,45 @@ export const ports = {
   misnjak:    { name: 'Mišnjak', island: 'rab' },
 };
 
-// Bidirectional legs.
+// Bidirectional legs. `op` = operator, `src` = key in sources.mjs.
+// Times checked against 2026 timetables where we could (October 2026).
 export const legs = [
   // Central Dalmatia from Split
-  { a: 'split', b: 'supetar', type: 'ferry', mins: 50 },
-  { a: 'split', b: 'bol', type: 'cat', mins: 60 },
-  { a: 'split', b: 'rogac', type: 'ferry', mins: 60 },
-  { a: 'split', b: 'starigrad', type: 'ferry', mins: 120 },
-  { a: 'split', b: 'hvartown', type: 'cat', mins: 60 },
-  { a: 'split', b: 'vis', type: 'ferry', mins: 140 },
-  { a: 'split', b: 'vis', type: 'cat', mins: 85 },
-  { a: 'split', b: 'velaluka', type: 'ferry', mins: 165 },
-  { a: 'split', b: 'korcula', type: 'cat', mins: 150 },
-  { a: 'bol', b: 'jelsa', type: 'cat', mins: 25 },
-  { a: 'hvartown', b: 'vis', type: 'cat', mins: 60, seasonal: true },
-  { a: 'hvartown', b: 'korcula', type: 'cat', mins: 75 },
-  { a: 'hvartown', b: 'velaluka', type: 'cat', mins: 55 },
-  { a: 'makarska', b: 'sumartin', type: 'ferry', mins: 60 },
-  { a: 'drvenik', b: 'sucuraj', type: 'ferry', mins: 35 },
+  { a: 'split', b: 'supetar', type: 'ferry', mins: 50, op: 'Jadrolinija', src: 'jadSupetar' },
+  { a: 'split', b: 'bol', type: 'cat', mins: 65, op: 'Jadrolinija', src: 'jadBol' },
+  { a: 'split', b: 'rogac', type: 'ferry', mins: 60, op: 'Jadrolinija', src: 'jadSolta' },
+  { a: 'split', b: 'starigrad', type: 'ferry', mins: 110, op: 'Jadrolinija', src: 'jadStariGrad' },
+  { a: 'split', b: 'hvartown', type: 'cat', mins: 60, op: 'TP Line', src: 'tp9604' },
+  { a: 'split', b: 'vis', type: 'ferry', mins: 140, op: 'Jadrolinija', src: 'jadVis' },
+  { a: 'split', b: 'vis', type: 'cat', mins: 80, op: 'Jadrolinija / Krilo', src: 'ferryVis', note: '70–115 min depending on stops' },
+  { a: 'split', b: 'velaluka', type: 'ferry', mins: 180, op: 'Jadrolinija', src: 'jadVelaLuka' },
+  { a: 'split', b: 'korcula', type: 'cat', mins: 185, op: 'TP Line', src: 'tp9608', note: 'faster seasonal Split–Dubrovnik boats take about 2 h 30' },
+  { a: 'bol', b: 'jelsa', type: 'cat', mins: 25, op: 'Jadrolinija', src: 'jadBol' },
+  { a: 'hvartown', b: 'vis', type: 'cat', mins: 45, seasonal: true, op: 'Jadrolinija (summer)', src: 'visitCroatiaVis' },
+  { a: 'hvartown', b: 'korcula', type: 'cat', mins: 75, op: 'TP Line / Krilo', src: 'ferryHvarKorcula' },
+  { a: 'hvartown', b: 'velaluka', type: 'cat', mins: 55, op: 'TP Line', src: 'tp9604' },
+  { a: 'makarska', b: 'sumartin', type: 'ferry', mins: 50, op: 'Jadrolinija', src: 'jadMakarska' },
+  { a: 'drvenik', b: 'sucuraj', type: 'ferry', mins: 30, op: 'Jadrolinija', src: 'jadSucuraj' },
   // South Dalmatia
-  { a: 'velaluka', b: 'ubli', type: 'ferry', mins: 90 },
-  { a: 'orebic', b: 'domince', type: 'ferry', mins: 15 },
-  { a: 'korcula', b: 'pomena', type: 'cat', mins: 50, seasonal: true },
-  { a: 'pomena', b: 'dubrovnik', type: 'cat', mins: 90, seasonal: true },
-  { a: 'korcula', b: 'dubrovnik', type: 'cat', mins: 120 },
-  { a: 'dubrovnik', b: 'sobra', type: 'cat', mins: 75 },
-  { a: 'sobra', b: 'polace', type: 'cat', mins: 30 },
-  { a: 'prapratno', b: 'sobra', type: 'ferry', mins: 45 },
-  { a: 'dubrovnik', b: 'lopud', type: 'ferry', mins: 50 },
+  { a: 'velaluka', b: 'ubli', type: 'ferry', mins: 90, op: 'Jadrolinija', src: 'jadVelaLuka' },
+  { a: 'orebic', b: 'domince', type: 'ferry', mins: 20, op: 'Jadrolinija', src: 'jadOrebic' },
+  { a: 'korcula', b: 'pomena', type: 'cat', mins: 45, seasonal: true, op: 'Krilo', src: 'kriloMljet' },
+  { a: 'pomena', b: 'dubrovnik', type: 'cat', mins: 75, seasonal: true, op: 'Krilo', src: 'kriloMljet' },
+  { a: 'korcula', b: 'dubrovnik', type: 'cat', mins: 125, op: 'TP Line / Krilo', src: 'tp9807' },
+  { a: 'dubrovnik', b: 'sobra', type: 'cat', mins: 75, op: 'TP Line', src: 'tp9807', unverifiedTime: true },
+  { a: 'sobra', b: 'polace', type: 'cat', mins: 30, op: 'TP Line', src: 'tp9807', unverifiedTime: true },
+  { a: 'prapratno', b: 'sobra', type: 'ferry', mins: 45, op: 'Jadrolinija', src: 'jadPrapratno' },
+  { a: 'dubrovnik', b: 'lopud', type: 'ship', mins: 50, op: 'Jadrolinija', src: 'jadElaphiti', unverifiedTime: true },
   // North Dalmatia
-  { a: 'zadar', b: 'preko', type: 'ferry', mins: 25 },
-  { a: 'zadar', b: 'brbinj', type: 'ferry', mins: 90 },
-  { a: 'sibenik', b: 'zlarin', type: 'ferry', mins: 30 },
+  { a: 'zadar', b: 'preko', type: 'ferry', mins: 25, op: 'Jadrolinija', src: 'jadPreko' },
+  { a: 'zadar', b: 'brbinj', type: 'ferry', mins: 100, op: 'Jadrolinija', src: 'jadBrbinj' },
+  { a: 'sibenik', b: 'zlarin', type: 'ferry', mins: 25, op: 'Jadrolinija', src: 'jadZlarin' },
   // Kvarner
-  { a: 'rijeka', b: 'crestown', type: 'cat', mins: 75 },
-  { a: 'rijeka', b: 'malilosinj', type: 'cat', mins: 180 },
-  { a: 'brestova', b: 'porozina', type: 'ferry', mins: 20 },
-  { a: 'valbiska', b: 'merag', type: 'ferry', mins: 25 },
-  { a: 'stinica', b: 'misnjak', type: 'ferry', mins: 15 },
+  { a: 'rijeka', b: 'crestown', type: 'cat', mins: 80, op: 'Jadrolinija', src: 'jadLosinj' },
+  { a: 'rijeka', b: 'malilosinj', type: 'cat', mins: 270, op: 'Jadrolinija', src: 'jadLosinj', note: 'calls at Cres, Martinšćica, Unije, Susak and Ilovik' },
+  { a: 'brestova', b: 'porozina', type: 'ferry', mins: 20, op: 'Jadrolinija', src: 'jadBrestova' },
+  { a: 'valbiska', b: 'merag', type: 'ferry', mins: 25, op: 'Jadrolinija', src: 'jadValbiska' },
+  { a: 'stinica', b: 'misnjak', type: 'ferry', mins: 20, op: 'Rapska plovidba', src: 'stinica' },
   // On-island / bridge connections (road)
   { a: 'supetar', b: 'bol', type: 'road', mins: 45 },
   { a: 'supetar', b: 'sumartin', type: 'road', mins: 50 },
@@ -122,13 +124,13 @@ export const islands = [
   { id: 'brac', name: 'Brač', ports: ['bol', 'supetar'], nights: [2, 3], why: 'Pine-backed beaches at Bol, stone villages inland and the quarry that built half of Dalmatia.' },
   { id: 'solta', name: 'Šolta', ports: ['rogac'], nights: [1, 2], why: 'An hour from Split and a world quieter: olive oil, honey and tiny harbours.' },
   { id: 'hvar', name: 'Hvar', ports: ['hvartown', 'starigrad', 'jelsa'], nights: [2, 3], why: 'Lavender, the UNESCO-listed Stari Grad Plain, and a town that calms down beautifully after September.' },
-  { id: 'vis', name: 'Vis', ports: ['vis'], nights: [3, 4], why: 'The farthest inhabited island of central Dalmatia, long closed to foreigners. Komiža, wine and slow lunches.' },
+  { id: 'vis', name: 'Vis', ports: ['vis'], nights: [3, 4], why: 'The farthest inhabited island of central Dalmatia, closed to foreign visitors until 1989. Komiža, wine and slow lunches.' },
   { id: 'korcula', name: 'Korčula', ports: ['korcula', 'velaluka'], nights: [2, 3], why: 'A walled old town on a peninsula, white Pošip and Grk wines, and the Pelješac peninsula across the channel.' },
   { id: 'lastovo', name: 'Lastovo', ports: ['ubli'], nights: [2, 3], why: 'A protected nature park with very little light pollution and few visitors.' },
   { id: 'mljet', name: 'Mljet', ports: ['pomena', 'polace', 'sobra'], nights: [2, 2], why: 'Forest, saltwater lakes and a 12th-century monastery on an islet, inside a national park.' },
   { id: 'elaphiti', name: 'Lopud (Elaphiti)', ports: ['lopud'], nights: [1, 2], why: 'Car-free and close to Dubrovnik, with a sandy bay at Šunj.' },
   { id: 'ugljan', name: 'Ugljan', ports: ['preko'], nights: [1, 2], why: 'Zadar’s olive-growing island, 25 minutes away.' },
-  { id: 'dugiotok', name: 'Dugi Otok', ports: ['brbinj'], nights: [2, 3], why: 'Telašćica nature park and the gateway for day trips into the Kornati.' },
+  { id: 'dugiotok', name: 'Dugi Otok', ports: ['brbinj'], nights: [2, 3], why: 'Telašćica Nature Park on its southern tip, which borders the Kornati National Park.' },
   { id: 'zlarin', name: 'Zlarin', ports: ['zlarin'], nights: [1, 1], why: 'A car-free island of coral-diving history, half an hour from Šibenik.' },
   { id: 'cres', name: 'Cres', ports: ['crestown', 'porozina', 'merag'], nights: [2, 2], why: 'Sheep pasture, griffon vultures and hilltop Lubenice.' },
   { id: 'losinj', name: 'Lošinj', ports: ['malilosinj'], nights: [2, 3], why: 'Pine-scented promenades and captains’ houses, joined to Cres by a bridge at Osor.' },

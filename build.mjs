@@ -12,14 +12,17 @@ await mkdir(join(OUT, 'assets'), { recursive: true });
 
 // CSS: prepend palette from config as custom properties.
 const kebab = (s) => s.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
-const vars = Object.entries(config.palette).map(([k, v]) => `  --${kebab(k)}: ${v};`).join('\n');
+const vars = [
+  ...Object.entries(config.palette).map(([k, v]) => `  --${kebab(k)}: ${v};`),
+  ...['display', 'body', 'mono'].map((k) => `  --font-${k}: ${config.fonts[k]};`),
+].join('\n');
 const css = await readFile('src/assets/style.css', 'utf8');
 await writeFile(join(OUT, 'assets/style.css'), `/* Generated from site.config.mjs */\n:root {\n${vars}\n}\n${css}`);
 for (const f of ['site.js', 'planner.js', 'planner-core.js']) await cp(join('src/assets', f), join(OUT, 'assets', f));
 
 // Favicon from palette.
 const p = config.palette;
-await writeFile(join(OUT, 'favicon.svg'), `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><circle cx="20" cy="20" r="19" fill="${p.adriatic}"/><path d="M20 7 L20 27 L10 27 Z" fill="#fff"/><path d="M22 11 Q30 19 22 27 Z" fill="${p.sun}"/><path d="M7 30 Q13.5 26 20 30 T33 30" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>`);
+await writeFile(join(OUT, 'favicon.svg'), `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><rect width="40" height="40" rx="9" fill="${p.deep}"/><path d="M20 5 L20 27 L9 27 Z" fill="#fff"/><path d="M22.5 9 Q31.5 18 22.5 27 Z" fill="${p.sun}"/><path d="M6 31.5 Q13 27.5 20 31.5 T34 31.5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`);
 
 for (const pg of pages) {
   const file = pg.file ? join(OUT, pg.file) : join(OUT, pg.path, 'index.html');

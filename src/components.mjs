@@ -1,4 +1,4 @@
-import { esc, dag } from './lib.mjs';
+import { esc, dag, sourcesBlock } from './lib.mjs';
 import { crowds, crowdLevels, months, monthsLong, foodSeasons } from './data/seasons.mjs';
 import * as ferries from './data/ferries.mjs';
 import { plan, fmtMins, legLabel } from './assets/planner-core.js';
@@ -15,7 +15,7 @@ export function crowdCalendar({ withAlternatives = true } = {}) {
       <p class="small">${dag(c.note)}</p>
       <ul>${c.alternatives.map(([n, t]) => `<li><strong>${esc(n)}</strong>: ${dag(t)}</li>`).join('')}</ul>
       <p class="quiet-months">Quietest: <strong>${c.levels.map((l, i) => (l <= 2 ? months[i] : null)).filter(Boolean).join(', ')}</strong></p>
-    </div>`).join('')}</div>` : '';
+    </div>`).join('')}</div>${sourcesBlock(crowds.map((c) => c.src || []))}` : '';
   return `<div class="crowd" data-crowd>
   <div class="table-scroll" tabindex="0" role="region" aria-label="Crowd calendar, scrolls sideways">
   <table class="crowd-table">
@@ -33,7 +33,7 @@ export function crowdCalendar({ withAlternatives = true } = {}) {
 const span = (from, to) => (from <= to ? [[from, to]] : [[from, 11], [0, to]]);
 const rangeText = (from, to) => (from === to ? monthsLong[from] : `${monthsLong[from]} to ${monthsLong[to]}`);
 
-export function foodStrip() {
+export function foodStrip({ withSources = false } = {}) {
   return `<div class="strip" data-strip>
   <div class="strip-months" aria-hidden="true"><span></span>${months.map((m, i) => `<span data-month="${i}">${m[0]}<span class="m-rest">${m.slice(1)}</span></span>`).join('')}</div>
   <ol class="strip-rows">
@@ -52,12 +52,13 @@ export function foodStrip() {
   </li>`).join('')}
   </ol>
   <p class="strip-key small"><span class="nowrap"><span class="key-bar" aria-hidden="true"></span> Season</span> <span class="nowrap"><span class="key-peak" aria-hidden="true"></span> Usually best</span> <span>Tap a row for details.</span></p>
+  ${withSources ? sourcesBlock(foodSeasons.map((f) => f.src || [])) : ''}
 </div>`;
 }
 
 /* ── Island-hopping planner ─────────────────────────────────── */
 export function itineraryHTML(r) {
-  const leg = (s) => `<li class="leg leg-${s.type}"><span class="leg-type">${legLabel[s.type]}</span> ${esc(s.fromName)} → ${esc(s.toName)} <span class="leg-time">~${fmtMins(s.mins)}</span>${s.seasonal ? ' <span class="badge">seasonal</span>' : ''}</li>`;
+  const leg = (s) => `<li class="leg leg-${s.type}"><span class="leg-type">${legLabel[s.type]}</span><span class="leg-route">${esc(s.fromName)} → ${esc(s.toName)}${s.op ? ` <span class="leg-op">${esc(s.op)}</span>` : ''}</span><span class="leg-time">~${fmtMins(s.mins)}${s.seasonal ? ' <span class="badge">seasonal</span>' : ''}</span></li>`;
   return `<ol class="itinerary">
     <li class="it-start"><span class="it-dot" aria-hidden="true"></span><strong>Start: ${esc(r.start)}</strong></li>
     ${r.segments.map((s) => `<li class="it-stop">
@@ -82,6 +83,8 @@ export function plannerStatic() {
       <button class="btn btn-ghost js-only" type="button" data-load-preset="${p.id}">Customise this route</button>
     </article>`).join('')}</div>`;
 }
+
+export const plannerSources = () => sourcesBlock(ferries.legs.filter((l) => l.src).map((l) => l.src));
 
 export function plannerData() {
   const { ports, legs, islands, startPorts, presets } = ferries;

@@ -13,7 +13,7 @@ const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&l
 let stops = [];
 
 function legHTML(s) {
-  return `<li class="leg leg-${s.type}"><span class="leg-type">${legLabel[s.type]}</span> ${esc(s.fromName)} → ${esc(s.toName)} <span class="leg-time">~${fmtMins(s.mins)}</span>${s.seasonal ? ' <span class="badge">seasonal</span>' : ''}</li>`;
+  return `<li class="leg leg-${s.type}"><span class="leg-type">${legLabel[s.type]}</span><span class="leg-route">${esc(s.fromName)} → ${esc(s.toName)}${s.op ? ` <span class="leg-op">${esc(s.op)}</span>` : ''}</span><span class="leg-time">~${fmtMins(s.mins)}${s.seasonal ? ' <span class="badge">seasonal</span>' : ''}</span></li>`;
 }
 
 function routeText(r) {
@@ -50,7 +50,7 @@ function render() {
   </ol>
   <p class="it-total"><strong>${r.totalNights}–${r.segments.reduce((n, s) => n + s.range[1], 0)} nights</strong> on islands · about <strong>${fmtMins(r.totalMins)}</strong> of crossings and transfers</p>
   ${r.warnings.length ? `<ul class="it-warn">${r.warnings.map((w) => `<li>${esc(w)}</li>`).join('')}</ul>` : ''}
-  <p><a class="btn" href="/enquire/?route=${encodeURIComponent(routeText(r))}">Ask us about this route</a></p>`;
+  <p><a class="btn" href="/enquire/?route=${encodeURIComponent(routeText(r))}">Ask us about this route<span class="btn-icon" aria-hidden="true">→</span></a></p>`;
 }
 
 app.addEventListener('click', (e) => {
