@@ -1,0 +1,16 @@
+{
+  "name": "croatia-travel-site",
+  "private": true,
+  "type": "module",
+  "description": "Static travel website for Croatia. Brand, contact details and palette live in site.config.mjs.",
+  "scripts": {
+    "build": "node scripts/check-contrast.mjs && node build.mjs && node scripts/i18n.mjs",
+    "check": "node scripts/check-contrast.mjs && node build.mjs && node scripts/i18n.mjs && node scripts/i18n.mjs check",
+    "dev": "node build.mjs && node scripts/i18n.mjs && node scripts/serve.mjs",
+    "serve": "node scripts/serve.mjs",
+    "i18n:extract": "node build.mjs && node scripts/i18n.mjs extract"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
