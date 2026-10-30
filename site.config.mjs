@@ -18,12 +18,13 @@ export default {
       'Independent ideas for Croatia in the shoulder seasons: island hopping by ferry, sailing, Istrian food and wine, and national parks away from the crowds.',
   },
 
-  // Placeholder contact details: replace before launch.
+  // Contact details. The address is HUB385 in Zagreb (premium coworking,
+  // owner-approved arrangement). No phone number by design.
   contact: {
-    email: 'hello@maestral.example',
-    phone: '+385 00 000 0000',
-    phoneHref: '+385000000000',
-    address: 'Placeholder address, Split, Croatia',
+    email: 'maestral@tourground.com',
+    address: 'HUB385, Petrinjska 9, 10000 Zagreb, Croatia',
+    addressLines: ['HUB385', 'Petrinjska 9', '10000 Zagreb', 'Croatia'],
+    postalAddress: { streetAddress: 'Petrinjska 9', postalCode: '10000', addressLocality: 'Zagreb', addressCountry: 'HR' },
     hours: 'Mon–Fri, 09:00–17:00 (Central European Time)',
   },
 
@@ -35,16 +36,19 @@ export default {
     formEndpoint: '',
   },
 
-  // Typography. Loaded from Google Fonts; swap the families and the URL together.
+  // Typography. Self-hosted in src/assets/fonts (downloaded from Google Fonts:
+  // IBM Plex Mono 400/500, Instrument Serif roman + italic, Inter Tight 400–600,
+  // latin + latin-ext); rules in src/assets/fonts/fonts.css. `preload` lists
+  // the files used above the fold.
   fonts: {
     display: '"Instrument Serif", "Iowan Old Style", Georgia, serif',
     body: '"Inter Tight", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
     mono: '"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace',
-    href: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&display=swap',
+    preload: ['instrument-serif-normal-400-latin.woff2', 'inter-tight-normal-400-600-latin.woff2'],
   },
 
   // Canonical URL, no trailing slash. Used for sitemap and canonical tags.
-  siteUrl: 'https://maestral-croatia.vercel.app',
+  siteUrl: 'https://maestral.tourground.com',
 
   // Palette. `ink`/`inkSoft` are text colours; the rest are brand surfaces.
   // Text colour used ON each surface is declared in `contrastPairs` below

@@ -35,7 +35,7 @@ const rangeText = (from, to) => (from === to ? monthsLong[from] : `${monthsLong[
 
 export function foodStrip({ withSources = false } = {}) {
   return `<div class="strip" data-strip>
-  <div class="strip-months" aria-hidden="true"><span></span>${months.map((m, i) => `<span data-month="${i}">${m[0]}<span class="m-rest">${m.slice(1)}</span></span>`).join('')}</div>
+  <div class="strip-months" aria-hidden="true"><span></span>${months.map((m, i) => `<span data-month="${i}"><span class="m-abbr">${m}</span></span>`).join('')}</div>
   <ol class="strip-rows">
   ${foodSeasons.map((s) => `<li class="strip-row">
     <details>

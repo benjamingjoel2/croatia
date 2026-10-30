@@ -1,0 +1,9 @@
+{
+  "outDir": "dist",
+  "locales": ["fr", "de", "es"],
+  "siteUrl": "https://maestral.tourground.com",
+  "cleanUrls": true,
+  "skipLinkPrefixes": ["/assets/"],
+  "jsFiles": ["assets/site.js", "assets/planner.js", "assets/planner-core.js"],
+  "sitemaps": ["sitemap.xml"]
+}

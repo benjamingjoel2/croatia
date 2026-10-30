@@ -19,6 +19,7 @@ const vars = [
 const css = await readFile('src/assets/style.css', 'utf8');
 await writeFile(join(OUT, 'assets/style.css'), `/* Generated from site.config.mjs */\n:root {\n${vars}\n}\n${css}`);
 for (const f of ['site.js', 'planner.js', 'planner-core.js']) await cp(join('src/assets', f), join(OUT, 'assets', f));
+await cp('src/assets/fonts', join(OUT, 'assets/fonts'), { recursive: true });
 
 // Favicon from palette.
 const p = config.palette;
