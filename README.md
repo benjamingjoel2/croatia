@@ -42,7 +42,7 @@ build.mjs                ← renders every page to dist/
 src/
   pages.mjs              ← all page content and structure (one block per page)
   layout.mjs             ← <head>, header, nav, footer
-  lib.mjs                ← helpers: image + credit, cards, † markers
+  lib.mjs                ← helpers: images, cards, † markers
   components.mjs         ← crowd calendar, food strip, planner markup
   data/
     ferries.mjs          ← ports, ferry/catamaran legs, islands, preset routes
@@ -51,7 +51,8 @@ src/
     parks.mjs            ← the five national parks
     stays.mjs            ← PLACEHOLDER stays (invented names)
     journal.mjs          ← journal posts
-    photos.mjs           ← every Unsplash photo, with verified location + credit
+    photos.mjs           ← every Unsplash photo, with verified location and source
+    legal.mjs            ← Privacy Policy, Booking Terms, Cookie Policy text
     sources.mjs          ← references (official ones flagged) behind the facts
   assets/
     style.css            ← all styles (colours come from config as CSS variables)
@@ -106,8 +107,9 @@ The planner finds the most direct boats between your chosen islands
 ranges can wrap the year end, for example `from: 8, to: 0` is September to January.
 
 ### Photos
-All photos are hot-linked from Unsplash's CDN (as Unsplash asks) and
-credited automatically next to each image and on `/credits/`. **Rule: only
+All photos are hot-linked from Unsplash's CDN (as Unsplash asks). They are
+not credited on the page (the Unsplash License does not require it); the
+photographer and source stay in `src/data/photos.mjs`. **Rule: only
 use a photo where its Unsplash location field matches the place it
 illustrates.** To add one, put an entry in `src/data/photos.mjs` with the
 `photo-…` id, page slug, location (copied from the page), photographer and
@@ -132,5 +134,12 @@ note. Add the fact to `FACTS-TO-VERIFY.md` too.
 ## Content rules this site follows
 - No invented reviews, ratings, press logos or awards.
 - Stays are clearly labelled placeholders until replaced with real partners.
-- Every photo is credited, and its location matches its use.
+- Every photo's location matches its use.
+- No phone number, WhatsApp, social links or licence numbers (owner's rule).
+
+## Before launch
+- Have a lawyer review `/privacy/`, `/terms/` and `/cookies/` (`src/data/legal.mjs`, `src/legal.mjs`).
+- Confirm the business address (HUB385, Petrinjska 9, 10000 Zagreb) and `maestral@tourground.com`.
+- Replace the placeholder stays with real partners and their own photos (see `IMAGES-NEEDED.md`).
+- Work through `FACTS-TO-VERIFY.md`.
 - British English.

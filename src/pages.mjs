@@ -1,5 +1,5 @@
 import config from '../site.config.mjs';
-import { esc, dag, img, heroPicture, pageHead, section, card, verifyNote, credit, btn, arrow, label, sourcesBlock } from './lib.mjs';
+import { esc, dag, img, heroPicture, pageHead, section, card, verifyNote, btn, arrow, label, sourcesBlock } from './lib.mjs';
 import { regions } from './data/regions.mjs';
 import { parks } from './data/parks.mjs';
 import { islands } from './data/ferries.mjs';
@@ -8,6 +8,7 @@ import { stays } from './data/stays.mjs';
 import { posts } from './data/journal.mjs';
 import { photos } from './data/photos.mjs';
 import { sources } from './data/sources.mjs';
+import { LEGAL } from './legal.mjs';
 import { crowdCalendar, foodStrip, plannerStatic, plannerUI, plannerData, plannerSources } from './components.mjs';
 
 const B = config.brand.name;
@@ -52,7 +53,6 @@ page({
       <li><a href="/national-parks/"><span class="label-n">04</span><strong>National parks</strong><span>Five, out of season</span></a></li>
     </ol>
   </div>
-  <p class="hero-credit">${credit(photos.hvarPort)}</p>
 </section>
 
 <section class="section statement" aria-label="Our approach">
@@ -129,7 +129,6 @@ page({
     <p>Tell us your dates and what you love. We reply with ideas, not a sales pitch.</p>
     ${btn('/enquire/', 'Send an enquiry', 'btn-light')}
   </div>
-  <p class="hero-credit">${credit(photos.kornati)}</p>
 </section>`,
 });
 
@@ -255,7 +254,7 @@ ${section(`<p class="panel panel-terracotta placeholder-note"><strong>Placeholde
     <p>${esc(s.type)}</p>
     <dl class="mini-dl"><div><dt>Open</dt><dd>${esc(s.season)}</dd></div><div><dt>Good for</dt><dd>${esc(s.good)}</dd></div></dl>
   </div>
-  <p class="card-credit">Area photo: ${esc(photos[s.photo].caption)} · ${credit(photos[s.photo])}</p>
+  <p class="card-credit">Area photo: ${esc(photos[s.photo].caption)}</p>
 </article>`).join('')}</div>`)}`,
 });
 
@@ -285,7 +284,7 @@ ${section(`<div class="three-col">
   <div data-reveal>${label('02', 'How we check')}<p>Ferry times, park tickets and seasons are checked against operators’ and parks’ own sources, which we link on each page. Anything that changes year to year is marked †.</p></div>
   <div data-reveal>${label('03', 'What we don’t do')}<p>We don’t publish reviews, star ratings or awards. When we recommend a place, we tell you why in our own words.</p></div>
 </div>`)}
-${section(`<div class="panel contact-panel">${label('', 'Contact')}<p class="h-lg"><a href="mailto:${esc(config.contact.email)}">${esc(config.contact.email)}</a><br><a href="tel:${esc(config.contact.phoneHref)}">${esc(config.contact.phone)}</a></p><p class="muted">${esc(config.contact.address)} · ${esc(config.contact.hours)}</p></div>`, { cls: 'section-tight' })}`,
+${section(`<div class="panel contact-panel">${label('', 'Contact')}<p class="h-lg"><a href="mailto:${esc(config.contact.email)}">${esc(config.contact.email)}</a></p><p class="muted">${esc(config.contact.address)} · ${esc(config.contact.hours)}</p></div>`, { cls: 'section-tight' })}`,
 });
 
 /* ── Enquiry ────────────────────────────────────────────────── */
@@ -315,18 +314,20 @@ ${section(`<div class="enquiry-grid">
   <button class="btn" type="submit">Send enquiry${arrow}</button>
   <p class="small form-hint">${ep ? '' : 'Sending opens your email app with your enquiry filled in, ready to send.'}</p>
 </form>
-<aside class="panel panel-deep" aria-label="Direct contact">${label('', 'Prefer to write directly?')}<p class="h-md"><a href="mailto:${esc(config.contact.email)}">${esc(config.contact.email)}</a><br><a href="tel:${esc(config.contact.phoneHref)}">${esc(config.contact.phone)}</a></p><p class="small">${esc(config.contact.hours)}</p></aside>
+<aside class="panel panel-deep" aria-label="Direct contact">${label('', 'Prefer to write directly?')}<p class="h-md"><a href="mailto:${esc(config.contact.email)}">${esc(config.contact.email)}</a></p><p class="small">${esc(config.contact.hours)}</p><p class="small">${esc(config.contact.address)}</p></aside>
 </div>`)}`,
 });
 
-/* ── Credits & 404 ──────────────────────────────────────────── */
-page({
-  path: '/credits/', title: 'Photo credits', description: 'Credits for the photographs used on this site.',
-  body: `${pageHead({ eyebrow: 'Credits', title: 'Photo <em>credits</em>', lede: 'All photos come from Unsplash under the Unsplash License. Each was chosen only where the photo’s recorded location matches the place it illustrates.' })}
-${section(`<div class="table-scroll" tabindex="0" role="region" aria-label="Photo credits table"><table class="credits"><thead><tr><th scope="col">Shows</th><th scope="col">Location on Unsplash</th><th scope="col">Photographer</th></tr></thead><tbody>
-${Object.values(photos).map((ph) => `<tr><td>${esc(ph.caption)}</td><td>${esc(ph.location)}</td><td>${credit(ph)}</td></tr>`).join('')}
-</tbody></table></div>`)}`,
-});
+/* ── Legal: privacy, booking terms, cookies (data/legal.mjs) ── */
+for (const l of LEGAL) {
+  page({
+    path: `/${l.slug}/`, title: l.title, description: l.lede,
+    body: `${pageHead({ eyebrow: 'Legal', title: esc(l.title), lede: `${esc(l.lede)} <span class="small">Last updated <time datetime="${l.updated}">${fmtDate(l.updated)}</time>.</span>` })}
+${section(`<div class="prose legal">${l.sections.map((x) => `<h2>${esc(x.h)}</h2>${x.p.map((t) => (t.includes('<ul>') ? `<div>${t}</div>` : `<p>${t}</p>`)).join('')}`).join('')}</div>`)}`,
+  });
+}
+
+/* ── 404 ────────────────────────────────────────────────────── */
 page({
   path: '/404.html', title: 'Page not found', file: '404.html',
   body: `${pageHead({ eyebrow: '404', title: 'Lost <em>at sea</em>', lede: 'That page doesn’t exist. Try the <a href="/">home page</a> or the <a href="/islands/">island planner</a>.' })}`,
