@@ -3,10 +3,12 @@
 // Mobile menu (full-screen panel below 1100px)
 const header = document.querySelector('.site-header');
 const toggle = document.querySelector('.nav-toggle');
+// t() marks UI words for the per-language copies written by scripts/i18n.mjs.
+const t = (s) => s;
 const setMenu = (open) => {
   document.body.classList.toggle('nav-open', open);
   toggle.setAttribute('aria-expanded', String(open));
-  toggle.querySelector('.nav-toggle-label').textContent = open ? 'Close' : 'Menu';
+  toggle.querySelector('.nav-toggle-label').textContent = open ? t('Close') : t('Menu');
   document.body.style.overflow = open ? 'hidden' : '';
 };
 toggle?.addEventListener('click', () => setMenu(!document.body.classList.contains('nav-open')));
@@ -52,7 +54,7 @@ const form = document.getElementById('enquiry');
 if (form) {
   const params = new URLSearchParams(location.search);
   if (params.get('region')) form.region.value = params.get('region');
-  if (params.get('route')) form.message.value = `Route from the island planner:\n${params.get('route')}\n\n`;
+  if (params.get('route')) form.message.value = 'Route from the island planner:' + '\n' + params.get('route') + '\n\n';
 
   const errors = form.querySelector('.form-errors');
   form.addEventListener('submit', async (e) => {
@@ -80,7 +82,7 @@ if (form) {
         form.outerHTML = '<p class="form-done" role="status" tabindex="-1" id="form-done">Thank you. Your enquiry is on its way and we’ll reply soon.</p>';
         document.getElementById('form-done').focus();
       } catch {
-        errors.innerHTML = `<p>Sorry, that didn’t send. Please email us at ${form.dataset.email}.</p>`;
+        errors.innerHTML = '<p>' + 'Sorry, that didn’t send. Please email us at %s.'.replace('%s', form.dataset.email) + '</p>';
       }
       return;
     }

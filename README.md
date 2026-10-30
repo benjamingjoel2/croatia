@@ -137,6 +137,24 @@ note. Add the fact to `FACTS-TO-VERIFY.md` too.
 - Every photo's location matches its use.
 - No phone number, WhatsApp, social links or licence numbers (owner's rule).
 
+## Languages
+
+The site is in English (default), French, German and Spanish. English pages live at the
+normal URLs; `scripts/i18n.mjs` runs after `build.mjs` (in `npm run build`, which Vercel
+runs) and writes `/fr/`, `/de/` and `/es/` copies of every page from the translation files
+`i18n/fr.json`, `i18n/de.json` and `i18n/es.json` (each maps an English string to its
+translation; a sentence with inline markup is one entry). It also sets `<html lang>`,
+canonical and hreflang links, writes per-language copies of `site.js`, `planner.js` and
+`planner-core.js`, and adds every language to the sitemap. No translation code runs in the
+browser. The header (from 1100px) and the menu carry an EN · FR · DE · ES selector.
+
+In the page scripts, copy is written as whole phrases (`'%n nights'`, `'Start: %s'`) and
+single words are wrapped in `t('…')`, so the build can find and translate them.
+
+After changing any English copy, run `npm run i18n:extract`: it rewrites `i18n/source.json`
+and lists anything new in `i18n/missing.<locale>.json`. Add the translations to the locale
+files; `npm run check` fails until every string is translated.
+
 ## Before launch
 - Have a lawyer review `/privacy/`, `/terms/` and `/cookies/` (`src/data/legal.mjs`, `src/legal.mjs`).
 - Confirm the business address (HUB385, Petrinjska 9, 10000 Zagreb) and `maestral@tourground.com`.

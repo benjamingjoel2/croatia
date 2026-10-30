@@ -37,6 +37,9 @@ export function layout({ path, title, description, body, scripts = [], hero = fa
   const b = config.brand;
   const fullTitle = path === '/' ? `${b.name}: ${b.tagline}` : `${title} · ${b.name}`;
   const desc = description || b.description;
+  // Language selector: the same page in each language (FR/DE/ES pages are written by scripts/i18n.mjs).
+  const langPath = path === '/404' || path === '/404.html' ? '/' : path;
+  const langs = (cls) => `<nav class="langs ${cls}" aria-label="Language" data-i18n-skip>${['en', 'fr', 'de', 'es'].map((l) => `<a href="${l === 'en' ? langPath : `/${l}${langPath}`}" hreflang="${l}" lang="${l}" data-lang-link${l === 'en' ? ' aria-current="true"' : ''}>${l.toUpperCase()}</a>`).join('<span aria-hidden="true">·</span>')}</nav>`;
   const isCurrent = (href) => (path === href || (href !== '/' && path.startsWith(href)) ? ' aria-current="page"' : '');
   return `<!doctype html>
 <html lang="en-GB" class="no-js">
@@ -66,8 +69,10 @@ ${fontPreload}
     <a class="brand" href="/" aria-label="${esc(b.name)}, home">${logoMark}<span class="brand-name">${esc(b.name)}</span></a>
     <nav id="site-nav" class="site-nav" aria-label="Main">
       <ul>${nav.map(([href, label]) => `<li><a href="${href}"${isCurrent(href)}>${label}</a></li>`).join('')}<li class="nav-enquire"><a href="/enquire/"${isCurrent('/enquire/')}>Enquire</a></li></ul>
+      ${langs('menu-langs')}
     </nav>
     <div class="header-actions">
+      ${langs('header-langs')}
       <a class="btn btn-small btn-header" href="/enquire/"${isCurrent('/enquire/')}>Enquire${arrow}</a>
       <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav"><span class="bars" aria-hidden="true"></span><span class="nav-toggle-label">Menu</span></button>
     </div>

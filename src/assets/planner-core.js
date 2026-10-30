@@ -1,4 +1,8 @@
 // Shared by the build (to pre-render preset routes) and the browser planner.
+// UI copy is written as whole phrases ('%n nights') so scripts/i18n.mjs can translate each
+// one for the /fr/, /de/ and /es/ copies of this file; t() marks single words as copy.
+export const t = (s) => s;
+export const fill = (s, v) => s.replace(/%([a-z])/g, (m, k) => (v[k] != null ? v[k] : m));
 // Pure functions only, no DOM.
 
 export function buildGraph(legs) {
@@ -68,11 +72,11 @@ export function plan(data, { start, end, stops, car = false }) {
       const c = p.steps.reduce((sum, s) => sum + cost(bestLeg(graph, s.from, s.to, car)), 0) + i * 45;
       if (c < best) { best = c; path = p; }
     });
-    if (!path) { warnings.push(`No ${car ? 'car-ferry ' : ''}route found to ${label}.`); return null; }
+    if (!path) { warnings.push(fill(car ? 'No car-ferry route found to %s.' : 'No route found to %s.', { s: label })); return null; }
     const steps = path.steps.map((s) => {
       const leg = bestLeg(graph, s.from, s.to, car);
       totalMins += leg.mins;
-      if (leg.seasonal) warnings.push(`${data.ports[s.from].name} → ${data.ports[s.to].name} runs mainly in summer or less often off-season.`);
+      if (leg.seasonal) warnings.push(fill('%a → %b runs mainly in summer or less often off-season.', { a: data.ports[s.from].name, b: data.ports[s.to].name }));
       return { from: s.from, to: s.to, fromName: data.ports[s.from].name, toName: data.ports[s.to].name, type: leg.type, mins: leg.mins, seasonal: !!leg.seasonal, op: leg.op || '', note: leg.note || '' };
     });
     here = path.to;
@@ -97,4 +101,4 @@ export const fmtMins = (m) => {
   return h ? `${h} h${r ? ` ${String(r).padStart(2, '0')}` : ''}` : `${r} min`;
 };
 
-export const legLabel = { ferry: 'Car ferry', cat: 'Catamaran', ship: 'Passenger boat', road: 'By road' };
+export const legLabel = { ferry: t('Car ferry'), cat: t('Catamaran'), ship: t('Passenger boat'), road: t('By road') };
