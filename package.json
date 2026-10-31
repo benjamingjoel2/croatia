@@ -8,7 +8,8 @@
     "check": "node scripts/check-contrast.mjs && node build.mjs && node scripts/i18n.mjs && node scripts/i18n.mjs check",
     "dev": "node build.mjs && node scripts/i18n.mjs && node scripts/serve.mjs",
     "serve": "node scripts/serve.mjs",
-    "i18n:extract": "node build.mjs && node scripts/i18n.mjs extract"
+    "i18n:extract": "node build.mjs && node scripts/i18n.mjs extract",
+    "cf-pages": "npm run build && cp cloudflare/_headers dist/"
   },
   "engines": {
     "node": ">=18"
