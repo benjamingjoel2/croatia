@@ -2,7 +2,7 @@
    build.mjs from site.config.mjs. Use var(--name) only. */
 
 :root {
-  --gutter: 20px;
+  --gutter: 16px;
   --radius: 4px;
   --radius-lg: 18px;
   --line: rgb(27 40 48 / .14);
@@ -11,8 +11,8 @@
   --header-h: 68px;
   --lvl-1: var(--pine-tint); --lvl-2: #CFE6D6; --lvl-3: #F6E3A8; --lvl-4: #F2B79C; --lvl-5: var(--terracotta);
 }
-@media (min-width: 720px) { :root { --gutter: 40px; } }
-@media (min-width: 1200px) { :root { --gutter: 56px; } }
+@media (min-width: 720px) { :root { --gutter: 24px; } }
+@media (min-width: 1200px) { :root { --gutter: 32px; } }
 
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 16px); }
@@ -26,7 +26,7 @@ p { margin: 0 0 1em; }
 .sr-only { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .skip { position: absolute; left: 8px; top: -60px; background: var(--deep); color: var(--white); padding: 10px 16px; z-index: 100; }
 .skip:focus { top: 8px; }
-.wrap { width: 100%; max-width: 1440px; margin: 0 auto; padding: 0 var(--gutter); }
+.wrap { width: 100%; padding: 0 var(--gutter); }
 .muted { color: var(--ink-soft); }
 .small { font-size: .9rem; color: var(--ink-soft); }
 
@@ -69,7 +69,7 @@ em { font-style: italic; }
 
 /* Header */
 .site-header { position: sticky; top: 0; z-index: 50; background: rgb(247 244 236 / .92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); transition: background .3s var(--ease), color .3s var(--ease), border-color .3s; }
-.header-row { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; height: var(--header-h); padding: 0 var(--gutter); max-width: 1440px; margin: 0 auto; }
+.header-row { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; height: var(--header-h); padding: 0 var(--gutter); }
 .brand { display: inline-flex; align-items: center; gap: .55rem; text-decoration: none; color: var(--deep); }
 .logo-mark { width: 30px; height: 30px; flex: none; }
 .brand-name { font-family: var(--font-display); font-size: 1.7rem; line-height: 1; letter-spacing: -.01em; }
@@ -222,7 +222,6 @@ em { font-style: italic; }
 .scroller::-webkit-scrollbar { display: none; }
 .scroller-track { display: grid; grid-auto-flow: column; grid-auto-columns: min(78vw, 340px); gap: 1.25rem; max-width: none; }
 @media (min-width: 1100px) { .scroller-track { grid-auto-columns: 360px; } }
-@media (min-width: 1440px) { .scroller { padding-left: calc((100vw - 1440px) / 2 + var(--gutter)); } }
 .scroller .card { scroll-snap-align: start; }
 .scroller-ctrl { gap: .5rem; display: none; }
 .js .js-only-flex { display: flex; }
