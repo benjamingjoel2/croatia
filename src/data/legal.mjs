@@ -1,146 +1,278 @@
 /**
- * Legal pages: Privacy Policy, Booking Terms and Cookie Policy.
- *
- * Plain data so it can move to a CMS later. Each page has a title, a short
- * lede, a "last updated" date and sections of paragraphs. `legal(site)` fills in
- * the brand name, email and business address. `storage` lists what the site
- * actually stores in the visitor's browser (see the Cookie Policy).
- * Have a lawyer review these before launch.
+ * Legal pages: Privacy Policy, Booking Terms and Cookie Policy (English source; the French,
+ * German and Spanish pages come from i18n/<locale>.json like every other page).
+ * Paragraphs are HTML. Each page has a title, a short lede, a "last updated" date and sections.
  */
-const UPDATED = '2026-10-30';
+const UPDATED = '2026-11-01';
 
-function legal({ brand, email, address, storage = [], processors = [] }) {
-  const addr = address.join(', ');
-  const mail = `<a href="mailto:${email}">${email}</a>`;
-  const storageList = storage.length
-    ? `<ul>${storage.map((s) => `<li><b>${s.name}</b> (${s.type}, ${s.duration}): ${s.purpose}</li>`).join('')}</ul>`
-    : '';
-  const processorList = processors.length
-    ? `<ul>${processors.map((p) => `<li><b>${p.name}</b>: ${p.purpose}</li>`).join('')}</ul>`
-    : '';
-
+function legal() {
   return [
-    {
-      slug: 'privacy',
-      title: 'Privacy Policy',
-      lede: `How ${brand} collects, uses and protects your personal information.`,
-      updated: UPDATED,
-      sections: [
-        { h: 'Who we are', p: [
-          `${brand} plans tailor-made journeys. We are the controller of the personal information described in this policy. You can reach us at ${mail} or by post at ${addr}.`,
-        ] },
-        { h: 'What we collect', p: [
-          'When you send an enquiry we collect what you choose to give us: your name, email address and, if you add them, your phone number, travel dates, number of travellers, interests, budget range and any message.',
-          'When we plan and arrange a journey for you we may also need the names, dates of birth, passport details, dietary needs, health or mobility information and emergency contacts of everyone travelling. We ask for these only when they are needed to make the arrangements, and we treat health information with extra care.',
-          'Like every website, our hosting provider records technical information such as your IP address, browser type and the pages requested, so that the site can be delivered and kept secure.',
-        ] },
-        { h: 'How we use it and our legal basis', p: [
-          'We use your information to reply to your enquiry, prepare proposals and quotes, make and manage bookings with hotels, guides, drivers and other suppliers, look after you while you travel, and keep the records we are required to keep by law.',
-          'Our legal bases are: taking steps at your request before entering into a contract and performing that contract; your consent where we ask for it (for example, the consent box on our enquiry form, or to keep in touch about future trips); our legitimate interest in running and securing our business; and compliance with legal obligations such as accounting and tax rules.',
-          'We do not sell your personal information and we do not use it for automated decision-making.',
-        ] },
-        { h: 'Who we share it with', p: [
-          'We share only what is needed with the suppliers who provide your journey (accommodation, transport, guides and activity providers), with insurers or emergency services if you need help while travelling, and with service providers who help us run the business, such as our website host and email provider, under contracts that require them to protect it.',
-          ...(processorList ? [`The service providers involved in this website are:${processorList}`] : []),
-          'Some suppliers and service providers are outside your country. Where information is transferred outside the UK or the European Economic Area, we make sure appropriate safeguards are in place, such as standard contractual clauses.',
-        ] },
-        { h: 'How long we keep it', p: [
-          'We keep enquiries that do not lead to a booking for up to two years, then delete them. We keep booking records for as long as the law requires for accounting and tax purposes, usually up to seven years after your journey.',
-        ] },
-        { h: 'Your rights', p: [
-          `You can ask for a copy of your information, ask us to correct or delete it, object to or restrict how we use it, ask for it to be transferred, and withdraw any consent you have given at any time. Write to ${mail}; we reply within one month.`,
-          'If you are unhappy with how we have handled your information, please tell us first. You also have the right to complain to the data protection authority in the country where you live or work.',
-        ] },
-        { h: 'Security', p: [
-          'We use reputable providers, encrypted connections (HTTPS) and limited access to protect your information. No method of transmission over the internet is completely secure, so please do not send passport scans or card details by ordinary email unless we ask you to.',
-        ] },
-        { h: 'Cookies', p: [
-          'Our use of cookies and similar technologies is explained in our <a href="/cookies/">Cookie Policy</a>.',
-        ] },
-        { h: 'Changes to this policy', p: [
-          'We may update this policy from time to time. The date at the top shows when it last changed.',
-        ] },
-      ],
-    },
-    {
-      slug: 'terms',
-      title: 'Booking Terms',
-      lede: `The terms on which ${brand} plans and arranges tailor-made journeys. Please read them before you confirm a booking.`,
-      updated: UPDATED,
-      sections: [
-        { h: 'About these terms', p: [
-          `These terms apply to every journey arranged by ${brand} (“we”, “us”), contact ${mail}, ${addr}. “You” means the person making the booking and everyone travelling on it. The person who makes the booking confirms that they are authorised to accept these terms on behalf of everyone named on it.`,
-        ] },
-        { h: 'Enquiries and proposals', p: [
-          'Every journey starts with an enquiry and a conversation. We then send a written proposal with an itinerary and a quote. Proposals and quotes are free and are not a booking: places are not held until a booking is confirmed, and availability and prices can change until then.',
-        ] },
-        { h: 'Prices', p: [
-          'Our quotes are tailor-made and state what is and is not included. Unless the quote says otherwise, international flights, travel insurance, visas, tips, and personal expenses are not included. Once a booking is confirmed we will not change its price except where permitted by law, for example because of changes in transport costs, taxes or fees imposed by third parties or exchange rates, and we will tell you as early as possible and explain how the change was calculated.',
-        ] },
-        { h: 'Booking, deposit and balance', p: [
-          'A booking is confirmed when you accept the proposal, pay the deposit stated in it and we send you a written confirmation. The deposit secures the arrangements and is used to pay suppliers.',
-          'The balance is due by the date stated in your confirmation, usually some weeks before you travel. If the balance is not received on time we may treat the booking as cancelled by you and apply the cancellation charges below. Bookings made close to departure may require full payment at the time of booking.',
-        ] },
-        { h: 'Changes by you', p: [
-          'If you want to change your booking after it is confirmed, tell us in writing as soon as possible. We will do our best to help, but changes depend on availability and suppliers’ own conditions. We will pass on any extra cost and may charge a reasonable fee for the work involved; both will be agreed with you before we make the change.',
-          'You may transfer your booking to another person who meets any conditions of the journey, provided you give us reasonable notice before departure. You and the new traveller are jointly responsible for any balance and for any extra costs arising from the transfer.',
-        ] },
-        { h: 'Cancellation by you', p: [
-          'You may cancel at any time by writing to us. Because we pay suppliers in advance, cancellation charges apply; they increase as departure gets closer and are set out in your proposal and confirmation before you book. Where suppliers refund us, we will pass the refund on to you less the cancellation charge. Your travel insurance may cover cancellation charges in some circumstances.',
-          'You may cancel without a charge if unavoidable and extraordinary circumstances at your destination significantly affect the journey, such as war, natural disaster or a serious outbreak of disease, as recognised by the relevant government travel advice.',
-        ] },
-        { h: 'Changes and cancellation by us', p: [
-          'We plan carefully, but occasionally we have to make changes. If a change is minor we will tell you as soon as we can. If we have to make a significant change, or cancel your journey, we will tell you as soon as possible and offer you the choice of the changed arrangements, an alternative journey of equivalent or higher standard if available, or a full refund of the money you have paid us.',
-          'We will not cancel your journey after the balance is due unless we are forced to by unavoidable and extraordinary circumstances, or because you have not paid.',
-        ] },
-        { h: 'Travel insurance', p: [
-          'Comprehensive travel insurance is a condition of booking. It must cover cancellation and curtailment, medical treatment, repatriation and any activities included in your journey. Please arrange it when you book and send us the policy details before you travel.',
-        ] },
-        { h: 'Passports, visas and health', p: [
-          'Each traveller is responsible for holding a valid passport, any visas and entry permits, and meeting the health and vaccination requirements for every country on the itinerary, including any rules on passport validity and blank pages. We will share general guidance, but requirements change: please check the official government advice for your nationality before you book and again before you travel. We are not responsible for costs arising from missing or incorrect documents.',
-          'Please tell us before you book about any medical condition, disability or reduced mobility that may affect your journey, so that we can advise whether the arrangements are suitable.',
-        ] },
-        { h: 'Our responsibilities and limits', p: [
-          'We are responsible for making sure that the arrangements we book are provided as described, by suppliers we have selected with reasonable care. If something goes wrong, tell us or the supplier straight away so that it can be put right.',
-          'We are not responsible where a failure is caused by you, by a third party not connected with providing your journey, or by unavoidable and extraordinary circumstances beyond our control. Where we are liable, our liability is limited as permitted by law and by the international conventions that apply to air, sea and rail travel and to hotels. Nothing in these terms limits liability for death or personal injury caused by negligence, or any other liability that cannot be limited by law.',
-          'Excursions or services that you book directly with a local supplier during your journey are not part of our arrangements, and we are not responsible for them.',
-        ] },
-        { h: 'Your responsibilities', p: [
-          'We ask you to follow the reasonable instructions of our suppliers, respect local laws and customs, and not behave in a way that puts others at risk or causes damage. We may end the journey of anyone who does, without refund.',
-        ] },
-        { h: 'Complaints', p: [
-          `If you have a problem during your journey, tell the supplier and us at once so that we can try to resolve it on the spot. If it is not resolved, write to us at ${mail} within 28 days of your return and we will reply promptly. If we cannot agree, you may be able to use an alternative dispute resolution scheme.`,
-        ] },
-        { h: 'Governing law', p: [
-          'These terms are governed by the law that applies where our business is established, and any dispute will be dealt with by the courts there. This does not take away any protection given to you by the mandatory consumer laws of the country where you live.',
-        ] },
-      ],
-    },
-    {
-      slug: 'cookies',
-      title: 'Cookie Policy',
-      lede: `What ${brand} stores on your device when you use this website, and how to control it.`,
-      updated: UPDATED,
-      sections: [
-        { h: 'Cookies and similar technologies', p: [
-          'Cookies are small text files that a website saves in your browser. Similar technologies, such as local storage, work in much the same way. They can be strictly necessary for a site to work, or used for things like analytics and advertising, which need your consent.',
-        ] },
-        { h: 'What this site uses', p: storage.length
-          ? [`This site does not use advertising or tracking cookies, and does not set cookies of its own. It uses only the following, which are strictly necessary for features you ask for:${storageList}Because these are strictly necessary, they do not need consent, and nothing is stored until you use the feature concerned.`]
-          : ['This site does not use any cookies or similar technologies: no analytics, no advertising and no tracking. It does not store anything in your browser.'] },
-        { h: 'Third-party content', p: [
-          'Photographs on this site are loaded from an image delivery service, which receives your IP address and browser details in order to send the images to you, in the same way as any website you visit. It does not set cookies through this site.',
-        ] },
-        { h: 'Consent and how to withdraw it', p: [
-          'If we ever add analytics or any other cookies that are not strictly necessary, we will ask for your consent first, through a banner on the site, and update this policy. You will be able to withdraw your consent at any time from the same place.',
-          'You can also delete cookies and site data, or block them, in your browser settings at any time. Blocking strictly necessary storage may stop some features from working.',
-        ] },
-        { h: 'Contact', p: [
-          `Questions about this policy: ${mail}, ${addr}. See also our <a href="/privacy/">Privacy Policy</a>.`,
-        ] },
-      ],
-    },
-  ];
+  {
+    "slug": "privacy",
+    "title": "Privacy policy",
+    "lede": "How Maestral collects, uses and protects your personal data, and your rights.",
+    "updated": "2026-11-01",
+    "sections": [
+      {
+        "h": "Who we are",
+        "p": [
+          "This website is run by Maestral, HUB385, Petrinjska 9, 10000 Zagreb, Croatia. In this policy &quot;we&quot;, &quot;us&quot; and &quot;our&quot; mean Maestral. We decide how and why your personal data is used, so we are the data controller.",
+          "For anything about your personal data, email <a href=\"mailto:maestral@tourground.com\">maestral@tourground.com</a>."
+        ]
+      },
+      {
+        "h": "What data we collect",
+        "p": [
+          "Details you send us through the enquiry or trip-planning forms on this website: usually your name, email address, preferred travel dates, the number of travellers, the kind of trip you have in mind, your budget range and anything you write in your message.",
+          "Emails and other messages you send us, and our replies.",
+          "If you book, what is needed to arrange the trip: the names of everyone travelling, dates of birth and passport details where suppliers or authorities require them, dietary, medical and accessibility needs you choose to share, emergency contacts, and records of the payments you make. We do not collect or store payment card numbers on this website.",
+          "Technical data: when you visit, our hosting provider automatically records your IP address, browser type, the pages requested and the time of the request in server logs, to keep the site running and secure.",
+          "We do not use analytics or advertising tools, and we do not build profiles of visitors."
+        ]
+      },
+      {
+        "h": "Why we use it and our legal bases",
+        "p": [
+          "To reply to your enquiry and prepare a proposal: steps you ask us to take before entering into a contract, and our legitimate interest in answering people who contact us.",
+          "To book, run and support your trip, and to take payments: performance of our contract with you.",
+          "To handle health, dietary or accessibility information so that suppliers can look after you: your explicit consent, which you can withdraw at any time.",
+          "To keep accounting and booking records: our legal obligations.",
+          "To keep the website secure and working: our legitimate interests.",
+          "We do not sell your personal data and we do not use it for automated decision-making."
+        ]
+      },
+      {
+        "h": "Who we share it with",
+        "p": [
+          "Service providers who process data for us under contract: Vercel Inc. (United States), which hosts this website and keeps short-lived server logs; and our email provider, which stores the messages we exchange with you.",
+          "If you book: the hotels, lodges, transport companies, activity operators and local partners in Croatia who deliver your trip, and only the details each of them needs. If you ask us to, your travel insurer.",
+          "Public authorities, courts or professional advisers where the law requires it or to establish or defend legal claims."
+        ]
+      },
+      {
+        "h": "International transfers",
+        "p": [
+          "Our hosting and email providers are based in the United States. Where your data leaves the UK or the European Economic Area, the transfer relies on the EU-US Data Privacy Framework and its UK extension where the provider is certified, or on the European Commission&#39;s standard contractual clauses (with the UK addendum), which oblige the provider to protect it to European standards.",
+          "When you book, we pass the details needed to deliver your trip to suppliers in Croatia. That transfer is necessary to perform the contract you have asked us to arrange."
+        ]
+      },
+      {
+        "h": "How long we keep it",
+        "p": [
+          "Enquiries that do not become a booking: 24 months after our last contact, then deleted.",
+          "Booking records: six years after the end of your trip, the period accounting and tax rules require. Health and dietary details are deleted once your trip is over and any claim has been settled.",
+          "Server logs: a short period, normally no more than 30 days."
+        ]
+      },
+      {
+        "h": "How we protect it",
+        "p": [
+          "The site is served only over an encrypted connection (HTTPS). Your details are kept in password-protected accounts that only the people planning your trip can open, and we share with suppliers only what they need."
+        ]
+      },
+      {
+        "h": "Your rights",
+        "p": [
+          "Under data-protection law (including the GDPR and the UK GDPR) you have the right to: access the personal data we hold about you; have it rectified if it is wrong; have it erased; restrict how we use it; receive it in a portable format; object to processing based on our legitimate interests; and withdraw your consent at any time, without affecting what we did before you withdrew it.",
+          "To use any of these rights, email <a href=\"mailto:maestral@tourground.com\">maestral@tourground.com</a>. We reply within one month and do not charge for this.",
+          "You also have the right to complain to a data-protection supervisory authority, in particular in the country where you live or work (for example the Information Commissioner&#39;s Office in the UK, or your national authority in the EU). We would appreciate the chance to put things right first."
+        ]
+      },
+      {
+        "h": "Cookies",
+        "p": [
+          "This site uses no analytics or advertising cookies. Our <a href=\"/cookies/\">cookie policy</a> explains exactly what it stores in your browser."
+        ]
+      },
+      {
+        "h": "Children",
+        "p": [
+          "This website and our services are not aimed at children under 16, and we do not knowingly collect their data online. We hold details of children only when a parent or guardian gives them to us to book a family trip."
+        ]
+      },
+      {
+        "h": "Changes to this policy",
+        "p": [
+          "We will update this page if the way we handle personal data changes, and change the date below. Last updated: 1 November 2026."
+        ]
+      },
+      {
+        "h": "Contact",
+        "p": [
+          "Maestral, HUB385, Petrinjska 9, 10000 Zagreb, Croatia. Email: <a href=\"mailto:maestral@tourground.com\">maestral@tourground.com</a>."
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "terms",
+    "title": "Booking terms",
+    "lede": "The terms that apply when you book a trip with Maestral: deposit, balance, changes, cancellation and insurance.",
+    "updated": "2026-11-01",
+    "sections": [
+      {
+        "h": "Who we are",
+        "p": [
+          "These booking terms apply to every trip arranged by Maestral, HUB385, Petrinjska 9, 10000 Zagreb, Croatia (&quot;we&quot;, &quot;us&quot;). Email: <a href=\"mailto:maestral@tourground.com\">maestral@tourground.com</a>. Please read them before you book: together with your written quote and booking confirmation, they form the contract between us."
+        ]
+      },
+      {
+        "h": "Prices on this website",
+        "p": [
+          "Prices on this website are shown &quot;from&quot;: they are guide prices per person, usually based on two people sharing, and depend on dates, availability, group size and the choices you make. They are not an offer. The price you pay is the one in your final written quote, confirmed in writing before you book."
+        ]
+      },
+      {
+        "h": "How a booking is made and confirmed",
+        "p": [
+          "Sending an enquiry is free and commits neither of us. We send you a proposal, shape it with you and then send a written quote, valid for the period stated on it.",
+          "Your booking is confirmed, and a contract exists, when you have accepted the quote in writing, paid the deposit and received our written confirmation. The person who books must be 18 or over and accepts these terms for everyone in the party. Please check your confirmation and tell us straight away if anything is wrong."
+        ]
+      },
+      {
+        "h": "Deposit and balance",
+        "p": [
+          "The deposit is stated on your quote; it is normally 30% of the trip price. The balance is due no later than 60 days before departure, unless your confirmation gives another date. If you book within 60 days of departure, the full price is due when you book.",
+          "If the balance is not paid on time, we may treat the booking as cancelled by you and apply the cancellation charges below."
+        ]
+      },
+      {
+        "h": "What is included and not included",
+        "p": [
+          "Your trip includes exactly what is listed in your quote and confirmation, such as accommodation, the transport, activities and entrance fees named there, and the meals shown.",
+          "Unless your quote says otherwise, it does not include international flights, travel insurance, visas and entry fees, vaccinations, tips, drinks, meals not listed, optional activities or personal expenses."
+        ]
+      },
+      {
+        "h": "Changes by you",
+        "p": [
+          "If you want to change a confirmed trip, tell us in writing. We will try to help, but cannot guarantee every change. You pay any extra costs charged by suppliers, and we tell you the cost before making the change. You may transfer your booking to another person who meets all the conditions of the trip if you tell us in writing at least 14 days before departure and pay any costs the transfer causes."
+        ]
+      },
+      {
+        "h": "Cancellation by you",
+        "p": [
+          "You can cancel at any time by telling us in writing; the cancellation takes effect on the day we receive it. Because we commit and pay for services on your behalf, the following charges apply, as a percentage of the total trip price:",
+          "More than 60 days before departure: loss of the deposit. 60 to 31 days: 50%. 30 to 15 days: 75%. 14 days or less, or if you do not travel: 100%.",
+          "Where your quote lists a supplier cost that is non-refundable once paid (for example certain permits, park fees or flights), that cost is also payable whenever you cancel. Your travel insurance may cover cancellation charges."
+        ]
+      },
+      {
+        "h": "Changes and cancellation by us",
+        "p": [
+          "We sometimes have to make minor changes, such as a different hotel of the same standard or an adjusted route; we tell you as soon as we can.",
+          "If we have to make a significant change before departure, or cancel, you can accept the change, take a comparable alternative if we can offer one, or cancel and receive a full refund of everything you have paid us. We will not cancel after the balance is due except for unavoidable and extraordinary circumstances or your non-payment."
+        ]
+      },
+      {
+        "h": "Travel insurance",
+        "p": [
+          "Comprehensive travel insurance is a condition of booking. It must cover medical treatment, emergency evacuation and repatriation, cancellation and curtailment, and every activity in your trip. Please send us your policy details before you travel."
+        ]
+      },
+      {
+        "h": "Passports, visas and health",
+        "p": [
+          "You are responsible for holding a valid passport, any visa or travel authorisation, and the vaccinations and health documents required for Croatia and any country you pass through, and for being fit to take part. Entry rules change, so check your government&#39;s travel advice and the relevant embassy before you book and again before you travel. Tell us before booking about any medical condition or mobility need that could affect your trip."
+        ]
+      },
+      {
+        "h": "Our responsibility",
+        "p": [
+          "We take reasonable care to plan your trip and to choose reliable suppliers, and we are responsible for the services in your confirmation being provided as described. We are not responsible where a problem is caused by you, by a third party unconnected with the trip, or by unavoidable and extraordinary circumstances.",
+          "Except for death or personal injury caused by our negligence, or anything else that cannot be limited by law, our liability is limited to the total price of your trip. Where an international convention limits the liability of an airline, hotel or other carrier, our liability is limited in the same way. Some activities carry inherent risks, which we explain and you accept when you choose them."
+        ]
+      },
+      {
+        "h": "Your behaviour",
+        "p": [
+          "Please respect local laws, customs and communities, follow the safety instructions of drivers, crews and other suppliers, and do not put others at risk. If your behaviour endangers anyone or seriously disrupts the trip, we may end your trip without refund, and you are responsible for any damage you cause."
+        ]
+      },
+      {
+        "h": "Complaints",
+        "p": [
+          "If something is wrong during your trip, tell the supplier and us straight away so that we can try to put it right on the spot. If it cannot be resolved, write to <a href=\"mailto:maestral@tourground.com\">maestral@tourground.com</a> within 28 days of your return; we will acknowledge your complaint within 7 days and reply in full within 28 days."
+        ]
+      },
+      {
+        "h": "Force majeure",
+        "p": [
+          "We are not liable for any failure or delay caused by unavoidable and extraordinary circumstances beyond our control, such as war, terrorism, civil unrest, natural disaster, epidemics, severe weather, government action or the closure of airports or borders. If such an event stops your trip going ahead, we refund what we have paid on your behalf and can recover from suppliers, or offer an alternative."
+        ]
+      },
+      {
+        "h": "Data protection",
+        "p": [
+          "We use your personal data as described in our <a href=\"/privacy/\">privacy policy</a>."
+        ]
+      },
+      {
+        "h": "Governing law",
+        "p": [
+          "These terms and any contract with us are governed by the laws of Croatia, the country of our business address, and disputes are subject to the jurisdiction of the courts of Croatia. If you are a consumer living in another country, you keep the protection of the mandatory consumer law of that country and may also bring proceedings there."
+        ]
+      },
+      {
+        "h": "Contact",
+        "p": [
+          "Maestral, HUB385, Petrinjska 9, 10000 Zagreb, Croatia. Email: <a href=\"mailto:maestral@tourground.com\">maestral@tourground.com</a>. Last updated: 1 November 2026."
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "cookies",
+    "title": "Cookie policy",
+    "lede": "What the Maestral website stores in your browser, and how to manage it.",
+    "updated": "2026-11-01",
+    "sections": [
+      {
+        "h": "What cookies are",
+        "p": [
+          "Cookies are small text files that a website saves in your browser. Similar technologies, such as your browser&#39;s local storage and session storage, let a site keep small pieces of information on your device. This policy covers all of them."
+        ]
+      },
+      {
+        "h": "What this site uses",
+        "p": [
+          "This site sets no cookies. It does not store anything in your browser either. There are no analytics, advertising or tracking cookies, and no tracking pixels."
+        ]
+      },
+      {
+        "h": "Third-party content",
+        "p": [
+          "Some photographs are loaded from images.unsplash.com (Unsplash, United States). To fetch them, your browser sends your IP address and browser details to Unsplash, as with any web request; these image requests do not set cookies.",
+          "Our hosting provider, Vercel, does not set cookies on this site."
+        ]
+      },
+      {
+        "h": "Consent",
+        "p": [
+          "Everything listed above is either strictly necessary or remembers a choice you make, and none of it tracks you, so the site does not ask for cookie consent. If we ever add analytics or other optional cookies, we will ask for your consent first and update this page."
+        ]
+      },
+      {
+        "h": "How to manage or remove it",
+        "p": [
+          "You can block cookies and clear stored site data at any time in your browser settings, usually under Privacy or Site data. The site works the same either way."
+        ]
+      },
+      {
+        "h": "Changes to this policy",
+        "p": [
+          "If what the site stores changes, we will update this page and the date below. Last updated: 1 November 2026."
+        ]
+      },
+      {
+        "h": "Contact",
+        "p": [
+          "Questions about this policy: Maestral, HUB385, Petrinjska 9, 10000 Zagreb, Croatia. Email: <a href=\"mailto:maestral@tourground.com\">maestral@tourground.com</a>."
+        ]
+      }
+    ]
+  }
+];
 }
 
 export { legal, UPDATED };
