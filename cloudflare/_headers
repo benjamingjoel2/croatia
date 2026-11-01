@@ -1,0 +1,7 @@
+# Cloudflare Pages headers (ported from vercel.json). Pages cannot match on the ?v= query,
+# so versioned and unversioned assets share the one-day cache; fonts never change.
+/assets/*
+  Cache-Control: public, max-age=86400
+/assets/fonts/*
+  ! Cache-Control
+  Cache-Control: public, max-age=31536000, immutable
