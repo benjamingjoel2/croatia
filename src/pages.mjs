@@ -323,7 +323,7 @@ for (const l of LEGAL) {
   page({
     path: `/${l.slug}/`, title: l.title, description: l.lede,
     body: `${pageHead({ eyebrow: 'Legal', title: esc(l.title), lede: `${esc(l.lede)} <span class="small">Last updated <time datetime="${l.updated}">${fmtDate(l.updated)}</time>.</span>` })}
-${section(`<div class="prose legal">${l.sections.map((x) => `<h2>${esc(x.h)}</h2>${x.p.map((t) => (t.includes('<ul>') ? `<div>${t}</div>` : `<p>${t}</p>`)).join('')}`).join('')}</div>`)}`,
+${section(`<div class="prose legal">${l.sections.map((x) => `<h2>${esc(x.h)}</h2>${x.p.map((t) => (t.startsWith('<div') ? t : `<p>${t}</p>`)).join('')}`).join('')}</div>`)}`,
   });
 }
 
