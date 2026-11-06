@@ -1,5 +1,5 @@
 import config from '../site.config.mjs';
-import { esc, dag, img, heroPicture, pageHead, section, card, verifyNote, btn, arrow, label, sourcesBlock } from './lib.mjs';
+import { esc, dag, img, heroPicture, panoPicture, pageHead, section, card, verifyNote, btn, arrow, label, sourcesBlock } from './lib.mjs';
 import { regions } from './data/regions.mjs';
 import { parks } from './data/parks.mjs';
 import { islands } from './data/ferries.mjs';
@@ -29,23 +29,24 @@ const facts = [
 ];
 
 page({
-  path: '/', title: 'Home', hero: true,
+  path: '/', title: 'Home',
   body: `
-<section class="hero" data-hero aria-labelledby="hero-title">
-  ${heroPicture('hvarPort')}
-  <div class="hero-shade" aria-hidden="true"></div>
-  <div class="hero-inner wrap">
-    <div class="hero-top">
-      <p class="label label-light">43°10′N 16°26′E · Hvar town &amp; the Pakleni islands</p>
-      <p class="label label-light hero-season">Apr–Jun · Sep–Nov</p>
-    </div>
-    <div class="hero-main">
-      <h1 class="hero-wordmark" id="hero-title">${esc(B)}<span class="sr-only">: ${esc(config.brand.tagline)}</span></h1>
+<section class="hero-pano" aria-labelledby="hero-title">
+  <div class="wrap hero-pano-head">
+    <p class="label"><span class="label-n">Apr–Jun · Sep–Nov</span></p>
+    <div class="hero-pano-grid">
+      <h1 class="hero-title" id="hero-title">${esc(config.brand.tagline)}</h1>
       <div class="hero-intro">
         <p>Croatia after the crowds have gone home. Islands by ferry, sailing on the afternoon breeze, truffles in the Istrian hills and waterfalls before breakfast.</p>
-        <div class="btn-row">${btn('/islands/#planner', 'Plan an island hop', 'btn-light')}${btn('/when-to-go/#crowds', 'When to go', 'btn-ghost-light')}</div>
+        <div class="btn-row">${btn('/islands/#planner', 'Plan an island hop')}<a class="text-link" href="/when-to-go/#crowds">When to go</a></div>
       </div>
     </div>
+  </div>
+  <figure class="hero-pano-band">
+    ${panoPicture('hvarPort')}
+  </figure>
+  <div class="wrap">
+    <p class="label hero-pano-caption">43°10′N 16°26′E · Hvar town &amp; the Pakleni islands</p>
     <ol class="hero-strip">
       <li><a href="/islands/#planner"><span class="label-n">01</span><strong>Island hopping</strong><span>Ferries &amp; catamarans</span></a></li>
       <li><a href="/when-to-go/#crowds"><span class="label-n">02</span><strong>Crowd calendar</strong><span>Dubrovnik, Split, Plitvice</span></a></li>
