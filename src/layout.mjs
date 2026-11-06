@@ -85,23 +85,27 @@ ${body}
   <div class="wrap">
     <div class="footer-grid">
       <div class="footer-intro">
-        <p class="label label-light">The name</p>
-        <p class="footer-story">${esc(b.nameStory)}</p>
-        <a class="btn btn-light" href="/enquire/">Plan a trip with us${arrow}</a>
+        <a class="brand" href="/">${logoMark}<span class="brand-name">${esc(b.name)}</span></a>
+        <p class="footer-line">${esc(b.tagline)}</p>
+        <p><a href="mailto:${esc(config.contact.email)}">${esc(config.contact.email)}</a></p>
+        <p class="muted">${config.contact.addressLines.map(esc).join(', ')}</p>
       </div>
-      <div>
-        <p class="label label-light">Contact</p>
-        <p><a href="mailto:${esc(config.contact.email)}">${esc(config.contact.email)}</a><br>
-        <span class="muted">${esc(config.contact.hours)}</span></p>
-        <p class="muted">${config.contact.addressLines.map(esc).join('<br>')}</p>
-      </div>
-      <div>
-        <p class="label label-light">Explore</p>
-        <ul class="footer-links">${nav.map(([href, label]) => `<li><a href="${href}">${label}</a></li>`).join('')}</ul>
-      </div>
+      <nav class="footer-cols" aria-label="Footer">
+        <div>
+          <p class="label label-light">Explore</p>
+          <ul class="footer-links">${nav.slice(0, 4).map(([href, label]) => `<li><a href="${href}">${label}</a></li>`).join('')}</ul>
+        </div>
+        <div>
+          <p class="label label-light">Plan</p>
+          <ul class="footer-links">${nav.slice(4).map(([href, label]) => `<li><a href="${href}">${label}</a></li>`).join('')}<li><a href="/enquire/">Enquire</a></li></ul>
+        </div>
+        <div>
+          <p class="label label-light">Legal</p>
+          <ul class="footer-links">${LEGAL.map((l) => `<li><a href="/${l.slug}/">${esc(l.title)}</a></li>`).join('')}</ul>
+        </div>
+      </nav>
     </div>
-    <p class="footer-wordmark" aria-hidden="true">${esc(b.name)}</p>
-    <div class="footer-base"><p>© ${new Date().getFullYear()} ${esc(b.name)}. Independent travel ideas.</p><p>${LEGAL.map((l) => `<a href="/${l.slug}/">${esc(l.title)}</a>`).join(' · ')}</p></div>
+    <div class="footer-base"><p>© ${new Date().getFullYear()} ${esc(b.name)}. Independent travel ideas.</p></div>
   </div>
 </footer>
 <script src="/assets/site.js?v=${jsV}" defer></script>
