@@ -35,15 +35,6 @@ export function heroPicture(key, { eager = true } = {}) {
   </picture>`;
 }
 
-/** Wide, thin panorama band: 16:5 on wide screens, 16:9 on phones. Same markup as heroPicture so the layout preloads it. */
-export function panoPicture(key) {
-  const ph = photos[key];
-  return `<picture class="bleed-img">
-    <source media="(min-width: 800px)" srcset="${srcset(ph.src, [1200, 1800, 2400], 16 / 5)}" sizes="100vw">
-    <img src="${imgUrl(ph.src, 900, 16 / 9)}" srcset="${srcset(ph.src, [600, 900, 1200], 16 / 9)}" sizes="100vw" alt="${esc(ph.alt)}" width="900" height="506" fetchpriority="high" decoding="async">
-  </picture>`;
-}
-
 export const arrow = '<span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 16 16" width="14" height="14"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
 export const btn = (href, label, cls = '') => `<a class="btn ${cls}" href="${href}">${label}${arrow}</a>`;
 
