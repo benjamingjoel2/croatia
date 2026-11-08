@@ -10,7 +10,7 @@ export const dag = (s) => String(s).replace(/†/g, '<sup class="dag"><a href="#
 const imgUrl = (src, w, ratio) => `${src}?w=${w}${ratio ? `&h=${Math.round(w / ratio)}&fit=crop&crop=entropy` : ''}&auto=format&q=70`;
 const srcset = (src, widths, ratio) => widths.map((w) => `${imgUrl(src, w, ratio)} ${w}w`).join(', ');
 
-// Photos are not credited on the page (Unsplash License; owner's rule). Sources stay in data/photos.mjs.
+// Photos are not credited on the page (Unsplash License; owner's rule). They are all credited on /photo-credits/, from data/photos.mjs.
 
 /**
  * Responsive Unsplash image.
