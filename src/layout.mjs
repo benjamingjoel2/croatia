@@ -101,7 +101,7 @@ ${body}
         </div>
         <div>
           <p class="label label-light">Legal</p>
-          <ul class="footer-links">${LEGAL.map((l) => `<li><a href="/${l.slug}/">${esc(l.title)}</a></li>`).join('')}</ul>
+          <ul class="footer-links">${LEGAL.map((l) => `<li><a href="/${l.slug}/">${esc(l.title)}</a></li>`).join('')}<li><a href="/photo-credits/">Photo credits</a></li></ul>
         </div>
       </nav>
     </div>

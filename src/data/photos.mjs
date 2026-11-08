@@ -1,8 +1,8 @@
 // Every photo used on the site. Each one was accepted only after checking
 // that the LOCATION FIELD on its Unsplash page matches the place it
 // illustrates (verbatim value in `location`). All are free-licence
-// (Unsplash License), not Unsplash+. Credits are rendered automatically
-// next to each image and on /credits/.
+// (Unsplash License), not Unsplash+. Credits are not shown on the photos;
+// every photo is listed on /photo-credits/ (linked from the footer).
 //
 // To add a photo: copy the photo-… id from images.unsplash.com, record the
 // page's location field, and only use it where that place is the subject.

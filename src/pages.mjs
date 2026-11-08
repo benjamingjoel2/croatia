@@ -327,6 +327,15 @@ ${section(`<div class="prose legal">${l.sections.map((x) => `<h2>${esc(x.h)}</h2
   });
 }
 
+/* ── Photo credits (data/photos.mjs) ──────────────────────────
+   Credits are not shown on the photos; every photo is credited here, linked from the footer. */
+page({
+  path: '/photo-credits/', title: 'Photo credits', description: 'Who took the photographs on this site, under which licence, and where each original can be found.',
+  body: `${pageHead({ eyebrow: 'Legal', title: 'Photo credits', lede: 'Who took the photographs on this site, under which licence, and where each original can be found.' })}
+${section(`<div class="prose"><p>The photographs on this site come from Unsplash and are used under the <a href="https://unsplash.com/license" rel="license noopener">Unsplash License</a>. Each one is listed below with its photographer and a link to the original.</p></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Photo credits"><table class="credits"><thead><tr><th scope="col">Photo</th><th scope="col">Photographer</th><th scope="col">Licence</th><th scope="col">Source</th></tr></thead><tbody>${Object.values(photos).map((ph) => `<tr><td>${esc(ph.caption)}</td><td data-i18n-skip>${esc(ph.photographer)}</td><td>Unsplash License</td><td data-i18n-skip><a href="${esc(ph.page)}" rel="noopener">Unsplash</a></td></tr>`).join('')}</tbody></table></div>`)}`,
+});
+
 /* ── 404 ────────────────────────────────────────────────────── */
 page({
   path: '/404.html', title: 'Page not found', file: '404.html',
